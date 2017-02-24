@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using bbelt.Models;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace bbelt.Controllers
 {
@@ -22,7 +24,18 @@ namespace bbelt.Controllers
                 return RedirectToAction("ShowLogin", "User");
             }
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
-            // return View(_context.Users.ToList());
+
+            // User uzer = _context.Users
+            //         .Include(u => u.Activities)
+            //             .ThenInclude(a => a.Participant)
+            //         .SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+
+            List<Activity> activities = _context.Activities
+                .Include(a => a.Participants)
+                .ToList();
+            
+            ViewBag.user = uzer;
+            ViewBag.activities = activities;
             return View("ActivityList");
         }
 

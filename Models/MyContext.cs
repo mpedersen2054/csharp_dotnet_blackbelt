@@ -7,5 +7,7 @@ namespace bbelt.Models
         { }
  
         public DbSet<User> Users { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<UserActivity> UserActivities { get; set; }
     }
 }

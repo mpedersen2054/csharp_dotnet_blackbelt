@@ -1,4 +1,6 @@
 
+@using bbelt.Models
+@model bbelt.Models.User
 
 
 <div class="navb">
@@ -6,7 +8,7 @@
         <div class="col-md-12">
             <div class="brand">Activityhub</div>
             <ul class="links-left">
-                <li>Welcome Name!</li>
+                <li>Welcome @ViewBag.user.FirstName</li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
@@ -14,6 +16,8 @@
 </div>
 
 <br>
+
+@ViewBag.activities
 
 <div class="activity-list">
     <div class="row">
