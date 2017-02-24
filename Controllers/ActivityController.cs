@@ -29,6 +29,7 @@ namespace bbelt.Controllers
             List<Activity> activities = _context.Activities
                 .Include(a => a.Creator)
                 .Include(a => a.Participants)
+                    .ThenInclude(a => a.Participant)
                 .ToList();
             
             ViewBag.user = uzer;
@@ -53,13 +54,26 @@ namespace bbelt.Controllers
         // GET: /activity/{x}
         [HttpGet]
         [Route("activity/{ActivityId}")]
-        public IActionResult NewActivity(int ActivityId)
+        public IActionResult NewActivity(int activityId)
         {
+            Activity activ;
             if (HttpContext.Session.GetInt32("UserId") == null)
             {
                 return RedirectToAction("ShowLogin", "User");
             }
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+
+            try {
+                activ = _context.Activities
+                .Where(a => a.ActivityId == activityId)
+                .Include(a => a.Creator)
+                .Include(a => a.Participants)
+                .First();
+            } catch {
+                return RedirectToAction("ActivityList");
+            }
+
+            ViewBag.activity = activ;
             // return View(_context.Users.ToList());
             return View("ShowActivity");
         }
@@ -133,13 +147,20 @@ namespace bbelt.Controllers
         // GET: /leave
         [HttpPost]
         [Route("delete")]
-        public IActionResult DeleteActivity(int ActivityId)
+        public IActionResult DeleteActivity(int activityId)
         {
             if (HttpContext.Session.GetInt32("UserId") == null)
             {
                 return RedirectToAction("ShowLogin", "User");
             }
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            Activity activ = _context.Activities.SingleOrDefault(act => act.ActivityId == activityId);
+
+            // UserActivity uzerActiv = _context.UserActivities.SingleOrDefault(ua => ua.ParticipantId == uzer.UserId && ua.ActivityId == activ.ActivityId);
+
+            _context.Activities.Remove(activ);
+            _context.SaveChanges();
+
             return RedirectToAction("ActivityList");
         }
 

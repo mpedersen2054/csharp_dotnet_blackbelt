@@ -14,21 +14,21 @@
 <div class="single-activity">
     <div class="row">
         <div class="col-md-8">
-            <h1>Squirtgun Fight</h1>
-            <a href="#" class="btn btn-primary btn-lg">Join</a>
+            <h1>@ViewBag.activity.Title</h1>
             
             <hr>
 
-            <b>Event Coordinatior: </b> <p class="coordinator-name">Marky Mark</p>
+            <b>Event Coordinatior: </b> <p class="coordinator-name">@ViewBag.activity.Creator.FirstName @ViewBag.activity.Creator.LastName</p>
 
             <b>Description: </b>
-            <p class="activity-descr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam corporis excepturi doloribus aperiam, inventore ipsum ab quo. Eaque odit magnam commodi, sed, dolorem veritatis temporibus enim pariatur dolore similique, dolores impedit amet eligendi quo earum dolorum a in blanditiis assumenda.</p>
+            <p class="activity-descr">@ViewBag.activity.Description</p>
 
             <b>Participants</b>
             <ul class="participants">
-                <li class="participant">Acool Person</li>
-                <li class="participant">Paul Bunyun</li>
-                <li class="participant">Frank Sinatra</li>
+                @foreach (var part in @ViewBag.activity.Participants)
+                {
+                    <li class="participant">@part.Participant.FirstName @part.Participant.LastName</li>
+                }
             </ul>
 
         </div>
