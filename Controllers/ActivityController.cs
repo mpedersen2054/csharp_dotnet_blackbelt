@@ -26,11 +26,6 @@ namespace bbelt.Controllers
             }
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
 
-            // User uzer = _context.Users
-            //         .Include(u => u.Activities)
-            //             .ThenInclude(a => a.Participant)
-            //         .SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
-
             List<Activity> activities = _context.Activities
                 .Include(a => a.Creator)
                 .Include(a => a.Participants)
@@ -113,9 +108,64 @@ namespace bbelt.Controllers
             }
 
             return View("NewActivity", activ);
+        }
 
-            // User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
-            // return View(_context.Users.ToList());
+        // GET: /leave
+        [HttpPost]
+        [Route("leave")]
+        public IActionResult LeaveActivity(int activityId)
+        {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("ShowLogin", "User");
+            }
+            User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            Activity activ = _context.Activities.SingleOrDefault(act => act.ActivityId == activityId);
+
+            UserActivity uzerActiv = _context.UserActivities.SingleOrDefault(ua => ua.ParticipantId == uzer.UserId && ua.ActivityId == activ.ActivityId);
+
+            _context.UserActivities.Remove(uzerActiv);
+            _context.SaveChanges();
+
+            return RedirectToAction("ActivityList");
+        }
+
+        // GET: /leave
+        [HttpPost]
+        [Route("delete")]
+        public IActionResult DeleteActivity(int ActivityId)
+        {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("ShowLogin", "User");
+            }
+            User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            return RedirectToAction("ActivityList");
+        }
+
+        // GET: /leave
+        [HttpPost]
+        [Route("join")]
+        public IActionResult JoinActivity(int activityId)
+        {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("ShowLogin", "User");
+            }
+            System.Console.WriteLine(activityId);
+            System.Console.WriteLine(activityId.GetType());
+            User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            Activity activ = _context.Activities.SingleOrDefault(act => act.ActivityId == activityId);
+
+            UserActivity newUserActiv = new UserActivity {
+                ParticipantId = uzer.UserId,
+                ActivityId = activ.ActivityId
+            };
+
+            _context.Add(newUserActiv);
+            _context.SaveChanges();
+
+            return RedirectToAction("ActivityList");
         }
 
         private DateTime GetEndDate(DateTime startdate, string inc, int duration)

@@ -1,5 +1,10 @@
 /*Write all of your CSS here*/
 
+.btn-link {
+    margin: 0;
+    padding: 0;
+}
+
 .navb {
     position: relative;
     border-bottom: 1px solid #ccc;

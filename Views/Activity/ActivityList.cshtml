@@ -57,15 +57,24 @@
                         <td>
                             @if (@activ.Creator.UserId == @ViewBag.user.UserId)
                             {
-                                <a href="#">Delete</a>
+                                <form asp-controller="Activity" asp-action="DeleteActivity" method="POST">
+                                    <input type="hidden" name="activityId" value="@activ.ActivityId">
+                                    <input type="submit" class="btn btn-link" value="Delete">
+                                </form>
                             }
                             else if (isThere)
                             {
-                                <a href="#">Leave</a>
+                                <form asp-controller="Activity" asp-action="LeaveActivity" method="POST">
+                                    <input type="hidden" name="activityId" value="@activ.ActivityId">
+                                    <input type="submit" class="btn btn-link" value="Leave">
+                                </form>
                             }
                             else
                             {
-                                <a href="#">Join</a>   
+                                <form asp-controller="Activity" asp-action="JoinActivity" method="POST">
+                                    <input type="hidden" name="activityId" value="@activ.ActivityId">
+                                    <input type="submit" class="btn btn-link" value="Join">
+                                </form>
                             }
                         </td>
 
