@@ -23,7 +23,8 @@
     margin-left: 15px;
 }
 
-.auth-err {
+.auth-err,
+.acti-err {
     color: tomato;
 }
 

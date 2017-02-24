@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using bbelt.Models;
 using Microsoft.AspNetCore.Http;
@@ -65,6 +66,81 @@ namespace bbelt.Controllers
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
             // return View(_context.Users.ToList());
             return View("ShowActivity");
+        }
+
+
+        // POST: /new
+        [HttpPost]
+        [Route("new")]
+        public IActionResult AddNewActivity(ActivityValid activ)
+        {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("ShowLogin", "User");
+            }
+
+            if (ModelState.IsValid)
+            {
+                System.Console.WriteLine("DATA FROM FORM:");
+                System.Console.WriteLine(activ.Title);
+                System.Console.WriteLine(activ.DateAt);
+                DateTime enddate = GetEndDate(activ.DateAt, activ.DurationInc, activ.Duration);
+                System.Console.WriteLine(enddate);
+                System.Console.WriteLine(activ.Duration);
+                System.Console.WriteLine(activ.DurationInc);
+                System.Console.WriteLine(activ.Description);
+
+                Activity newActiv = new Activity {
+                    Title = activ.Title,
+                    DateAt = activ.DateAt,
+                    DateEnd = enddate,
+                    Duration = activ.Duration,
+                    DurationInc = activ.DurationInc,
+                    Description = activ.Description,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    CreatorId = (int)HttpContext.Session.GetInt32("UserId")
+                };
+
+                _context.Add(newActiv);
+                _context.SaveChanges();
+
+                Activity createdActiv = _context.Activities.SingleOrDefault(a => a.Title == activ.Title);
+
+                UserActivity newUserActiv = new UserActivity {
+                    ParticipantId = (int)HttpContext.Session.GetInt32("UserId"),
+                    ActivityId = createdActiv.ActivityId
+                };
+
+                _context.Add(newUserActiv);
+                _context.SaveChanges();
+
+                return RedirectToAction("ActivityList", "Activity");
+            }
+
+            return View("NewActivity", activ);
+
+            // User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+            // return View(_context.Users.ToList());
+        }
+
+        private DateTime GetEndDate(DateTime startdate, string inc, int duration)
+        {
+            DateTime enddate = new DateTime();
+
+            if (inc == "Minute")
+            {
+                enddate = startdate.AddMinutes(duration);
+            }
+            if (inc == "Hour")
+            {
+                enddate = startdate.AddHours(duration);
+            }
+            if (inc == "Day")
+            {
+                enddate = startdate.AddDays(duration);
+            }
+            return enddate;
         }
 
         

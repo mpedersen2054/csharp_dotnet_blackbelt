@@ -8,14 +8,15 @@ namespace bbelt.Models
     {
         public int ActivityId { get; set; }
 
-        public int Title { get; set; }
+        public string Title { get; set; }
 
         public int Duration { get; set; }
         public string DurationInc { get; set; }
 
         public DateTime DateAt { get; set; }
+        public DateTime DateEnd { get; set; }
 
-        public int Description { get; set; }
+        public string Description { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

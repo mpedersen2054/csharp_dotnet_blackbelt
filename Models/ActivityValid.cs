@@ -11,19 +11,21 @@ namespace bbelt.Models
 
         [Required]
         [MinLength(2)]
-        public int Title { get; set; }
+        public string Title { get; set; }
 
         // must be in the future
         [Required]
+        [Display(Name = "Date")]
         public DateTime DateAt { get; set; }
 
         [Required]
+        [Display(Name = "Duration")]
         public int Duration { get; set; }
         public string DurationInc { get; set; }
 
         [Required]
         [MinLength(10)]
-        public int Description { get; set; }
+        public string Description { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
