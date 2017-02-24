@@ -1,0 +1,35 @@
+
+@model bbelt.Models.UserRegister
+
+<br>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h1>Register</h1>
+        <div class="well">
+            <form asp-controller="User" asp-action="SubmitRegister" method="post">
+                <div class="form-group">
+                    <span asp-validation-for="FirstName" class="auth-err"></span>
+                    <input asp-for="FirstName" class="form-control" placeholder="First name...">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="LastName" class="auth-err"></span>
+                    <input asp-for="LastName" class="form-control" placeholder="Last name...">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Email" class="auth-err"></span>
+                    <input  asp-for="Email" class="form-control" placeholder="Email...">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Password" class="auth-err"></span>
+                    <input asp-for="Password" class="form-control" placeholder="Password...">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="PasswordConf" class="auth-err"></span>
+                    <input asp-for="PasswordConf" class="form-control" placeholder="Password Confirmation...">
+                </div>
+                <input type="submit" class="btn btn-primary btn-block" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>

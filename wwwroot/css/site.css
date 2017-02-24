@@ -1,0 +1,43 @@
+/*Write all of your CSS here*/
+
+.navb {
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    margin: 5px 0 20px 0;
+}
+
+.navb .brand {
+    font-size: 30px;
+    float: left;
+}
+
+.navb .links-left {
+    position: relative;
+    top: 15px;
+    float: right;
+    list-style: none;
+}
+
+.navb .links-left li {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.auth-err {
+    color: tomato;
+}
+
+/* for /wall */
+
+.posts .lead {
+    margin: 30px 0 5px 0;
+    font-size: 18px;
+}
+
+.posts .indent {
+    margin-left: 30px;
+}
+
+.bigger-b {
+    font-size: 18px;
+}

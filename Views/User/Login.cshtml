@@ -1,0 +1,23 @@
+
+@model bbelt.Models.UserLogin
+
+<br>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h1>Login</h1>
+        <div class="well">
+            <form asp-controller="User" asp-action="SubmitLogin" method="post">
+                <div class="form-group">
+                    <span asp-validation-for="Email" class="auth-err"></span>
+                    <input asp-for="Email" class="form-control" placeholder="Email...">
+                </div>
+                <div class="form-group">
+                    <span asp-validation-for="Password" class="auth-err"></span>
+                    <input asp-for="Password" class="form-control" placeholder="Password...">
+                </div>
+                <input type="submit" class="btn btn-primary btn-block" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
