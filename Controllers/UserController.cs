@@ -63,7 +63,7 @@ namespace bbelt.Controllers
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
                 HttpContext.Session.SetInt32("UserId", newUser.UserId);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ActivityList", "Activity");
             }
             return View("Register", userReg);
         }
@@ -84,7 +84,7 @@ namespace bbelt.Controllers
                     {
                         // if match, set id to session & redirect
                         HttpContext.Session.SetInt32("UserId", User.UserId);
-                        return RedirectToAction("Success", "Home");
+                        return RedirectToAction("ActivityList", "Activity");
                     }
                 }
             }

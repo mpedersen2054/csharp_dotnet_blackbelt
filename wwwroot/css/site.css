@@ -41,3 +41,12 @@
 .bigger-b {
     font-size: 18px;
 }
+
+.navhead {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.navhead a {
+    font-size: 18px;
+}
