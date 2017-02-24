@@ -32,6 +32,7 @@ namespace bbelt.Controllers
             //         .SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
 
             List<Activity> activities = _context.Activities
+                .Include(a => a.Creator)
                 .Include(a => a.Participants)
                 .ToList();
             
@@ -81,14 +82,7 @@ namespace bbelt.Controllers
 
             if (ModelState.IsValid)
             {
-                System.Console.WriteLine("DATA FROM FORM:");
-                System.Console.WriteLine(activ.Title);
-                System.Console.WriteLine(activ.DateAt);
                 DateTime enddate = GetEndDate(activ.DateAt, activ.DurationInc, activ.Duration);
-                System.Console.WriteLine(enddate);
-                System.Console.WriteLine(activ.Duration);
-                System.Console.WriteLine(activ.DurationInc);
-                System.Console.WriteLine(activ.Description);
 
                 Activity newActiv = new Activity {
                     Title = activ.Title,

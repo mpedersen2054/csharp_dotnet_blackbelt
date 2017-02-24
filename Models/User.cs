@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
 namespace bbelt.Models
@@ -32,6 +33,7 @@ namespace bbelt.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
+        [InverseProperty("Participant")]
         public List<UserActivity> Activities { get; set; }
         public User()
         {

@@ -17,7 +17,9 @@
 
 <br>
 
-@ViewBag.activities
+@foreach (var activ in @ViewBag.activities)
+{
+}
 
 <div class="activity-list">
     <div class="row">
@@ -34,12 +36,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <td><a href="/activity/1">Soccer in the park</a></td>
-                    <td>4/14 at 3:00pm</td>
-                    <td>2 Hours</td>
-                    <td>Mike</td>
-                    <td>6</td>
-                    <td><a href="#">Delete</a></td>
+                    
+                    @foreach (var activ in @ViewBag.activities)
+                    {
+                        bool isThere = false;
+
+                        @foreach (var part in @activ.Participants)
+                        {
+                            @if (@part.ParticipantId == @ViewBag.user.UserId)
+                            {
+                                isThere = true;
+                            }
+                        }
+
+                        <td><a href="/activity/@activ.ActivityId">@activ.Title</a></td>
+                        <td>@activ.DateAt</td>
+                        <td>@activ.Duration @activ.DurationInc</td>
+                        <td>@activ.Creator.FirstName</td>
+                        <td>@activ.Participants.Count</td>
+                        <td>
+                            @if (@activ.Creator.UserId == @ViewBag.user.UserId)
+                            {
+                                <a href="#">Delete</a>
+                            }
+                            else if (isThere)
+                            {
+                                <a href="#">Leave</a>
+                            }
+                            else
+                            {
+                                <a href="#">Join</a>   
+                            }
+                        </td>
+
+                    }
                 </tbody>
             </table>
         </div>
