@@ -31,5 +31,11 @@ namespace bbelt.Models
         
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public List<UserActivity> Activities { get; set; }
+        public User()
+        {
+            Activities = new List<UserActivity>();
+        }
     }
 }
