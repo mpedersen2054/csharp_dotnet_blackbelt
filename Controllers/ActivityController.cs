@@ -6,6 +6,14 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
+/*
+THINGS NOT DONE
+
+= Validation for user
+= /delete (couldnt get casading effect to delete)
+= not allow to join activity if conflicting activities
+*/
+
 namespace bbelt.Controllers
 {
     public class ActivityController : Controller
