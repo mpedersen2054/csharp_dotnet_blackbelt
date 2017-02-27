@@ -162,11 +162,20 @@ namespace bbelt.Controllers
                 return RedirectToAction("ShowLogin", "User");
             }
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
+
+            // if uzer.id != activ.CreatorId, dont let continue
+
             Activity activ = _context.Activities.SingleOrDefault(act => act.ActivityId == activityId);
+            List<UserActivity> uzerActiv = _context.UserActivities.Where(ua => ua.ActivityId == activ.ActivityId).ToList();
 
-            // UserActivity uzerActiv = _context.UserActivities.SingleOrDefault(ua => ua.ParticipantId == uzer.UserId && ua.ActivityId == activ.ActivityId);
+            System.Console.WriteLine(uzerActiv);
+            System.Console.WriteLine(uzerActiv.Count);
+            System.Console.WriteLine(activ);
 
-            _context.Activities.Remove(activ);
+            // remove all UserActivities with the given ac
+            _context.UserActivities.RemoveRange(uzerActiv);
+            _context.SaveChanges();
+            _context.Remove(activ);
             _context.SaveChanges();
 
             return RedirectToAction("ActivityList");

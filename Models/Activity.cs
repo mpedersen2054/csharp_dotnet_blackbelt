@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
 namespace bbelt.Models
@@ -24,6 +25,7 @@ namespace bbelt.Models
         public int CreatorId { get; set; }
         public User Creator { get; set; }
 
+        // [InverseProperty("Activity")]
         public List<UserActivity> Participants { get; set; }
         public Activity()
         {

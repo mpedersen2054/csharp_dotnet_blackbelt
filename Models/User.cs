@@ -8,7 +8,6 @@ namespace bbelt.Models
     public abstract class BaseEntity {}
     public class User : BaseEntity
     {
-
         [Key]
         public int UserId { get; set; }
 
