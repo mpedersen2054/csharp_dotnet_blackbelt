@@ -37,7 +37,7 @@ namespace bbelt.Controllers
             List<Activity> activities = _context.Activities
                 .Include(a => a.Creator)
                 .Include(a => a.Participants)
-                    .ThenInclude(a => a.Participant)
+                    .ThenInclude(p => p.Participant)
                 .ToList();
             
             ViewBag.user = uzer;
@@ -162,17 +162,20 @@ namespace bbelt.Controllers
                 return RedirectToAction("ShowLogin", "User");
             }
             User uzer = _context.Users.SingleOrDefault(user => user.UserId == HttpContext.Session.GetInt32("UserId"));
-
-            // if uzer.id != activ.CreatorId, dont let continue
-
             Activity activ = _context.Activities.SingleOrDefault(act => act.ActivityId == activityId);
+
+            // if uzer.id != activ.CreatorId, dont let them delete
+            // should be protected, but some1 could send POST req
+            // from somewhere other than the app interface
+            if (activ.CreatorId != uzer.UserId)
+            {
+                return RedirectToAction("ActivityList");
+            }
+
             List<UserActivity> uzerActiv = _context.UserActivities.Where(ua => ua.ActivityId == activ.ActivityId).ToList();
 
-            System.Console.WriteLine(uzerActiv);
-            System.Console.WriteLine(uzerActiv.Count);
-            System.Console.WriteLine(activ);
-
-            // remove all UserActivities with the given ac
+            // remove all UserActivities with the given ac, then
+            // delete the Activity to avoid nested transaction error
             _context.UserActivities.RemoveRange(uzerActiv);
             _context.SaveChanges();
             _context.Remove(activ);

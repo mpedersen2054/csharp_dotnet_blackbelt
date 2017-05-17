@@ -25,7 +25,6 @@ namespace bbelt.Models
         public int CreatorId { get; set; }
         public User Creator { get; set; }
 
-        // [InverseProperty("Activity")]
         public List<UserActivity> Participants { get; set; }
         public Activity()
         {
